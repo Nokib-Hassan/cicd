@@ -1,0 +1,27 @@
+name: 🚀 Deploy
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+permissions:
+  contents: read
+
+jobs:
+  check-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7 # Download the source for the triggering revision.
+      - uses: actions/setup-python@v7 # Install/configure Python on the runner.
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          pip install pytest
+      - name: Run tests
+        run: |
+          python -m pytest test_calculator.py
